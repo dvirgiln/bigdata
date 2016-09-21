@@ -26,26 +26,32 @@ def leftTruncate(num:Int):List[Int]
 ```
 
 
-SOLUTION
+# SOLUTION
 
 Both tasks have been implemented as one sbt project.
 
-# TASK 1 STEPS:
+## TASK 1 Steps:
   
-CASSANDRA SETUP:
+### CASSANDRA SETUP:
 
 1. Download the input data
 	ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/
      
-* In our case the input data used is the annual/2015.
-* The format contains 8 fields. Only the 4 first are used: station_id, date, type_value, value
-* The type_value fields contains TMAX, TMIN, PRCP, SNOW...
+ * In our case the input data used is the annual/2015.
+ * The format contains 8 fields. Only the 4 first are used: station_id, date, type_value, value
+ * The type_value fields contains TMAX, TMIN, PRCP, SNOW...
 
 2) Download Cassandra database
-3) Execute cassandra database
-4) Execute Cassandra client shell: ./cqlsh --request-timeout 50000
+3) Execute cassandra database:
+```
+    ./cassandra
+```
+4) Execute Cassandra client shell: 
+```
+./cqlsh --request-timeout 50000
+```
 5) Create the table that will store the weather records:
-
+```
 CREATE KEYSPACE AddBrain WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 3};
 USE AddBrain;
 
@@ -60,17 +66,20 @@ CREATE TABLE WEATHER (
   flag4 varchar,
   PRIMARY KEY (id_station, date, type)
 );
-
+```
 6)Migrate the data from the csv file to the cassandra table:
+```
 COPY WEATHER FROM '/home/dave/workspace/2015.csv';
+```
 
-SBT SETUP
+### SBT SETUP
 1) It is required sbt to run the project. 
 2) In the project directory type:
+```
 	sbt clean compile test package
+```
 
-
-SPARK SETUP
+### SPARK SETUP
 1) Download spark distribution. In my case I am using spark 1.6.2 (the one I had installed).
 2) Download the spark cassandra connector
 	https://spark-packages.org/package/datastax/spark-cassandra-connector
@@ -78,10 +87,11 @@ SPARK SETUP
 
 
 3) Execute spark:
+```
 	sudo ./spark-shell  --jars spark-cassandra-connector-1.6.1-s_2.10.jar,addbrain_2.10-1.0.jar --packages datastax:spark-cassandra-connector:1.6.0-s_2.10 --conf spark.cassandra.connection.host=localhost
-
+```
 4) From the spark shell write the following commands:
-
+```
 scala> import com.addbrain.SparkWeatherDao
 
 scala> SparkWeatherDao.getLowerMinimumTemperatures(4)
@@ -96,11 +106,18 @@ res0: Double = 57.0
 
 scala> SparkWeatherDao.getAverageMaxTemperatures
 res1: Double = 173.0  
+```
 
-Comments about the code: 
+
+The results related average temperatures are correct as they are measured as tenths of celsius degrees:
+
+    http://earthscience.stackexchange.com/questions/5015/what-is-celsius-degrees-to-tenths
+The result should be divided by 10. That means the minimum temperatures average is 5.7 ºC and the maximum temperatures average during the year is 17.3. This value has sense.
+
+### Comments about the code: 
 
 It has been created a simple interface with some base operations about weather:
-
+```
 trait WeatherDao {
   def getUpperMinimumTemperatures(numberRecords: Int): List[WeatherRecord]
 
@@ -114,10 +131,21 @@ trait WeatherDao {
 
   def getAverageMaxTemperatures(): Double
 }
-
+```
 This functionality could be increased with more complex operations over the current data.
 
-# TASK 2 STEPS:
+### TODO
+* Add test for the SparkWeatherDao service. To have a perfect simulation the idea would be to start an embedded cassandra server and populate the database before the tests start.
+  A possibility is to include the phantom dependency:
+  
+  http://outworkers.com/blog/post/a-series-on-phantom-part-1-getting-started-with-phantom
+  
+* Add more functions to the weather service, like grouping by date and stationId. I already tried grouping by stationID, but as the suffle of the GroupBy takes so many resources, i had a memory leak. 
+  It is always prefer to avoid groupBy, until it is required and the resultant RDD is smaller than the initial RDD.
+* Add sbt assembly plugin. Right now the sbt package it only includes the compilation of the scala classes and resources, but the dependencies are not attached. For running this jar on spark, it is required to
+  add the cassandra spark connector dependency to the spark classpath.
+
+## TASK 2
 
 It has been implemented the required function. As well it has been created a scala test accordingly.
 

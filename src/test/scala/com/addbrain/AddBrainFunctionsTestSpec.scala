@@ -1,8 +1,10 @@
+package com.addbrain
+
 /**
   * Created by dave on 20/09/16.
   */
+import com.addbrain.AddBrainFunctions._
 import org.scalatest._
-import AddBrainFunctions._
 
 class AddBrainFunctionsTestSpec extends FlatSpec with MustMatchers {
 

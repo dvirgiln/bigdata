@@ -8,7 +8,6 @@ import org.apache.spark.SparkContext._
 import org.apache.spark.SparkConf
 import org.apache.spark._
 import org.apache.spark.rdd.RDD
-
 /**
   * Implementation of the weather dao that retrieves the data from a cassandra database, using spark.
   *

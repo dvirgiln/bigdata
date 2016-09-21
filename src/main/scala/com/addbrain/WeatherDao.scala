@@ -1,4 +1,5 @@
 package com.addbrain
+
 /**
   * API to query weather data.
   *
