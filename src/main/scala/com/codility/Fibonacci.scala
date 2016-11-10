@@ -5,6 +5,10 @@ import scala.io.Source
 import scala.util.Try
 
 /**
+  * Calculates Fibonnacci from an input List of elements.
+  *
+  * Requires a catching mechanism included inside of the simple fibonnacci function.
+  *
   * Created by dave on 07/11/16.
   */
 object Fibonacci extends App{
