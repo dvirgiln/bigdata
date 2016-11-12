@@ -1,16 +1,20 @@
-name := "addbrain"
+name := "bigdata"
 
-version := "1.0"
+version := "0.1"
 
 scalaVersion := "2.10.6"
-val PhantomVersion = "1.22.0"
-val sparkVersion = "1.6.2"
 
-libraryDependencies += "org.apache.spark" %% "spark-core" % sparkVersion
-libraryDependencies += "org.apache.spark" %% "spark-sql" % sparkVersion
-libraryDependencies += "org.slf4j" % "slf4j-log4j12" % "1.7.10"
-libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4"
-libraryDependencies += "com.datastax.spark" %% "spark-cassandra-connector" % "1.6.2"
 
 
 resolvers += Resolver.mavenLocal
+
+lazy val temperatures = project.in(file("temperatures-spark")).
+    settings(Common.settings: _*).
+    settings(libraryDependencies ++= Dependencies.sparkDependencies)
+
+lazy val algorithms = project.in( file("algorithms")).
+    settings(Common.settings: _*).
+    settings(libraryDependencies ++= Dependencies.commonDependencies)
+
+lazy val root = (project in file(".")).
+    aggregate(algorithms , temperatures)
