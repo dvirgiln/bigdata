@@ -6,7 +6,7 @@ package com.algorithms
 import com.algorithms.LeftTrucante._
 import org.scalatest._
 
-class AddBrainFunctionsTestSpec extends FlatSpec with MustMatchers {
+class LeftTruncateTestSpec extends FlatSpec with MustMatchers {
 
   "The AddBran Left Truncate function" must "list positive numbers" in {
     leftTruncate(1340) must be(List(1340,340,40,0))
