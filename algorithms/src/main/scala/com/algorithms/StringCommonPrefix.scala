@@ -21,8 +21,8 @@ package com.algorithms
   */
 object StringCommonPrefix extends App{
 
-  val str1 = Console.readLine
-  val str2 = Console.readLine
+  val str1 = scala.io.StdIn.readLine
+  val str2 = scala.io.StdIn.readLine
 
 
   if (str1.length > str2.length) generateOutput(str1, str2)

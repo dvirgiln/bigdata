@@ -14,12 +14,12 @@ import scala.util.Try
 object Fibonacci extends App{
 
   val cache= scala.collection.mutable.Map[Int,BigInt] ()
-  val testCases=Console.readInt()
+  val testCases=scala.io.StdIn.readInt
   var latestKey: Int= 1
   cache.put(0,0)
   cache.put(1,1)
   if(testCases > 0){
-    val inputs=(1 to testCases).map(input =>Console.readInt())
+    val inputs=(1 to testCases).map(input =>scala.io.StdIn.readInt)
     inputs.map {input =>
       val result= fibonacci(input)
       println(result % (BigInt(10).pow(8)+7))}

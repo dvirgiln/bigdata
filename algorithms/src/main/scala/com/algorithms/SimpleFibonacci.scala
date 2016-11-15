@@ -1,5 +1,7 @@
 package com.algorithms
 
+import scala.io.StdIn
+
 /**
   *
   * Fibonnati function created without any catching mechanism.
@@ -23,7 +25,7 @@ object SimpleFibonacci {
 
   def main(args: Array[String]) {
     /** This will handle the input and output**/
-    println(fibonacci(readInt()))
+    println(fibonacci(StdIn.readInt))
 
   }
 

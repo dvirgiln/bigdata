@@ -10,9 +10,9 @@ package com.algorithms
   * Created by dave on 10/11/16.
   */
 object StringOddPermutation extends App{
-  val testCases=Console.readInt()
+  val testCases=scala.io.StdIn.readInt
   if(testCases > 0){
-    val inputs=(1 to testCases).map(input =>Console.readLine())
+    val inputs=(1 to testCases).map(input =>scala.io.StdIn.readLine())
     inputs.map {input =>
       if(input.length %2 !=0) throw new IllegalArgumentException(s"The input $input should contain a even lenght")
       val result= calculatePermutation2(input)

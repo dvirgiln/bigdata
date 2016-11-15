@@ -7,8 +7,8 @@ import scala.util.Try
   * Created by dave on 11/11/16.
   */
 object ReverseFactorization extends App {
-  val str1 = Console.readLine
-  val str2 = Console.readLine
+  val str1 = scala.io.StdIn.readLine
+  val str2 = scala.io.StdIn.readLine
 
 
   val firstLine = Try(str1.split(" ").map(Integer.parseInt(_))).getOrElse(throw new IllegalArgumentException("First Line does not contains numeric values"))

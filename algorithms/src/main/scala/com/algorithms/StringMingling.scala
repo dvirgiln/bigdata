@@ -19,8 +19,8 @@ package com.algorithms
   * Created by dave on 10/11/16.
   */
 object StringMingling extends App{
-  val str1 = Console.readLine
-  val str2 = Console.readLine
+  val str1 = scala.io.StdIn.readLine
+  val str2 = scala.io.StdIn.readLine
   val a='b'
   if (str1.length != str2.length) throw new IllegalArgumentException("Both inputs should have the same lenght")
 

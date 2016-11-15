@@ -7,11 +7,11 @@ package com.algorithms
 object PentagonalNumbers extends App{
 
   val cache= scala.collection.mutable.Map[Int,Long] ()
-  val testCases=Console.readInt()
+  val testCases=scala.io.StdIn.readInt
   var latestKey: Int= 1
   cache.put(1, 1)
   if(testCases > 0){
-    val inputs=(1 to testCases).map(input =>Console.readInt())
+    val inputs=(1 to testCases).map(input =>scala.io.StdIn.readInt)
     inputs.map {input =>
       val result= getPentagonalNumbers(input)
       Console.print(result+ "\n")

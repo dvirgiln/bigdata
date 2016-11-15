@@ -14,7 +14,7 @@ case class BinaryTreeNode(value: Int, var left: Option[BinaryTreeNode] = None, v
 object NumberBinaryTree extends App {
 
   val cache = scala.collection.mutable.Map[Int, Long]()
-  val testCases = Console.readInt()
+  val testCases = scala.io.StdIn.readInt
   var latestKey: Int = 1
   cache.put(0, 1L)
   cache.put(1, 1L)
@@ -22,7 +22,7 @@ object NumberBinaryTree extends App {
   val factorialCache = scala.collection.mutable.Map[Int, Long]()
 
   if (testCases > 0) {
-    val inputs = (1 to testCases).map(input => Console.readInt())
+    val inputs = (1 to testCases).map(input => scala.io.StdIn.readInt)
     inputs.map { input =>
       val result = NumberBinaryTreeUsingFormula.calculateNumberOfBinaryTrees(input)
       println(result)

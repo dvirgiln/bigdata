@@ -23,7 +23,7 @@ package com.algorithms
   * Created by dave on 10/11/16.
   */
 object StringRepetitionPattern extends App{
-  val str=Console.readLine
+  val str=scala.io.StdIn.readLine
 
   calculateCharactersRepetition(str.toList).map{character => print(character._1)
     if(character._2>1) print(character._2)
