@@ -1,4 +1,4 @@
-package com.example.spark.temperatures
+package com.example.temperatures.dao
 
 /**
   * API to query weather data.

@@ -1,13 +1,7 @@
-package com.example.spark.temperatures
-
-import java.sql.Date
+package com.example.temperatures.dao
 
 import com.datastax.spark.connector._
-import com.datastax.spark.connector.cql._
 import org.apache.spark.SparkContext
-import org.apache.spark.SparkContext._
-import org.apache.spark.SparkConf
-import org.apache.spark._
 import org.apache.spark.rdd.RDD
 /**
   * Implementation of the weather dao that retrieves the data from a cassandra database, using spark.
