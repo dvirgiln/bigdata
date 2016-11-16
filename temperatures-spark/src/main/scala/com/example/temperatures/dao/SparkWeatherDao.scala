@@ -3,6 +3,8 @@ package com.example.temperatures.dao
 import com.datastax.spark.connector._
 import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 /**
   * Implementation of the weather dao that retrieves the data from a cassandra database, using spark.
   *
@@ -10,23 +12,23 @@ import org.apache.spark.rdd.RDD
   */
 object SparkWeatherDao extends WeatherDao{
 
-  private val sc=SparkContext.getOrCreate()
+  private val sc=SparkContextFactory.createSparkContext
   private val data=sc.cassandraTable("addbrain" , "weather")
   private val records=data.map(row => WeatherRecord(row.getString(0),row.getDate(1), row.getString(2), row.getInt(3)))
   private val filterMin=records.filter(_.typeRecord == "TMIN")
   private val filterMax=records.filter(_.typeRecord == "TMAX")
 
-  def getUpperMinimumTemperatures(numRecords: Int): List[WeatherRecord]=filterMin.takeOrdered(numRecords)(Ordering[Int].reverse.on(_.value)).toList
+  override def getUpperMinimumTemperatures(numRecords: Int): Future[List[WeatherRecord]]=Future(filterMin.takeOrdered(numRecords)(Ordering[Int].reverse.on(_.value)).toList)
 
-  def getLowerMinimumTemperatures(numRecords: Int): List[WeatherRecord]=filterMin.takeOrdered(numRecords)(Ordering[Int].on(_.value)).toList
+  override def getLowerMinimumTemperatures(numRecords: Int): Future[List[WeatherRecord]]=Future(filterMin.takeOrdered(numRecords)(Ordering[Int].on(_.value)).toList)
 
-  def getUpperMaxTemperatures(numRecords: Int): List[WeatherRecord]=filterMax.takeOrdered(numRecords)(Ordering[Int].reverse.on(_.value)).toList
+  override def getUpperMaxTemperatures(numRecords: Int): Future[List[WeatherRecord]]=Future(filterMax.takeOrdered(numRecords)(Ordering[Int].reverse.on(_.value)).toList)
 
-  def getLowerMaxTemperatures(numRecords: Int): List[WeatherRecord]=filterMax.takeOrdered(numRecords)(Ordering[Int].on(_.value)).toList
+  override def getLowerMaxTemperatures(numRecords: Int): Future[List[WeatherRecord]]=Future(filterMax.takeOrdered(numRecords)(Ordering[Int].on(_.value)).toList)
 
-  def getAverageMaxTemperatures(): Double=getAverage(filterMax)
+  override def getAverageMaxTemperatures(): Future[Double]=Future(getAverage(filterMax))
 
-  def getAverageMinimumTemperatures(): Double=getAverage(filterMin)
+  override def getAverageMinimumTemperatures(): Future[Double]=Future(getAverage(filterMin))
 
   /*
     Interesting function that makes the average of Weather records, using the spark aggregate function, that is similar to the scala predef foldLeft.

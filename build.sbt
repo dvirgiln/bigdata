@@ -20,5 +20,9 @@ lazy val algorithms = project.in( file("algorithms")).
     settings(Common.settings: _*).
     settings(libraryDependencies ++= Dependencies.commonDependencies)
 
+lazy val akkaExamples = project.in(file("akka-examples")).
+    settings(Common.settings: _*).
+    settings(libraryDependencies ++= Dependencies.akkaDependencies)
+
 lazy val root = (project in file(".")).
-    aggregate(algorithms , temperaturesDao, temperaturesController)
+    aggregate(algorithms , temperaturesDao, temperaturesController, akkaExamples)

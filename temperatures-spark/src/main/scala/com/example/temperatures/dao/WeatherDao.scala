@@ -1,5 +1,7 @@
 package com.example.temperatures.dao
 
+import scala.concurrent.Future
+
 /**
   * API to query weather data.
   *
@@ -9,15 +11,15 @@ package com.example.temperatures.dao
 case class WeatherRecord(stationId: String, date: java.util.Date, typeRecord: String, value: Int )
 
 trait WeatherDao {
-  def getUpperMinimumTemperatures(numberRecords: Int): List[WeatherRecord]
+  def getUpperMinimumTemperatures(numberRecords: Int): Future[List[WeatherRecord]]
 
-  def getLowerMinimumTemperatures(numberRecords: Int): List[WeatherRecord]
+  def getLowerMinimumTemperatures(numberRecords: Int): Future[List[WeatherRecord]]
 
-  def getAverageMinimumTemperatures(): Double
+  def getAverageMinimumTemperatures(): Future[Double]
 
-  def getUpperMaxTemperatures(numberRecords: Int): List[WeatherRecord]
+  def getUpperMaxTemperatures(numberRecords: Int): Future[List[WeatherRecord]]
 
-  def getLowerMaxTemperatures(numberRecords: Int): List[WeatherRecord]
+  def getLowerMaxTemperatures(numberRecords: Int): Future[List[WeatherRecord]]
 
-  def getAverageMaxTemperatures(): Double
+  def getAverageMaxTemperatures(): Future[Double]
 }

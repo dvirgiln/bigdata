@@ -21,7 +21,6 @@ object Dependencies {
     "com.typesafe.akka" %% "akka-actor" % "2.4.12",
     "com.typesafe.akka" %% "akka-http-core" % "2.4.11",
     "com.typesafe.akka" %% "akka-http-experimental" % "2.4.11",
-    "com.typesafe.akka" %% "akka-http-jackson-experimental" % "2.4.11",
     "com.typesafe.akka" %% "akka-http-spray-json-experimental" % "2.4.11",
     "com.typesafe.akka" %% "akka-http-testkit" % "2.4.11",
     "com.typesafe.akka" %% "akka-http-xml-experimental" % "2.4.11"
