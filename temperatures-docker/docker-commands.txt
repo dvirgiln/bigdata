@@ -1,0 +1,2 @@
+remove all containers docker rm $(docker ps -aq)
+remove image docker rmi image_name
