@@ -6,7 +6,9 @@ for f in $FILES
 do
   # Unzipping the content of the zip file, just taking in account the xml of the first level.
   unzip $f '*.xml' -d './temp_dir'
-  unzip $f 'text_*/*' -d './temp_dir/text'
+
+  # Uncomment in case you want to populate hdfs with the text files
+  #unzip $f 'text_*/*' -d './temp_dir/text'
 done
 echo "XML files extracted successfully"
 hdfs dfs -mkdir -p /data/enron/text
@@ -18,12 +20,14 @@ do
  hdfs dfs -put $f /data/enron
 done
 
-TXT_FILES=./temp_dir/text/*
-for f in $TXT_FILES
-do
- echo "Inserting $f in hdfs /data/enron/text"
- hdfs dfs -put $f /data/enron/text
-done
+
+# Uncomment in case you want to populate hdfs with the text files
+# TXT_FILES=./temp_dir/text/*
+# for f in $TXT_FILES
+# do
+#  echo "Inserting $f in hdfs /data/enron/text"
+#  hdfs dfs -put $f /data/enron/text
+# done
 
 
 
