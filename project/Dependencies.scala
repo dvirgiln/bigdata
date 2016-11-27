@@ -26,6 +26,15 @@ object Dependencies {
     "com.typesafe.akka" %% "akka-http-xml-experimental" % "2.4.11"
   )
 
+  val sparkDependenciesCassandra : Seq[ModuleID] = sparkDependencies ++ Seq(
+    "com.datastax.spark" %% "spark-cassandra-connector" % "2.0.0-M3"
+  )
 
+
+  val sparkDependenciesXML : Seq[ModuleID] = sparkDependencies ++ Seq(
+    "com.databricks" %% "spark-xml" % "0.4.1"
+  )
+
+  val config: Seq[ModuleID]= Seq ("com.typesafe" % "config" % "1.3.0")
 
 }

@@ -10,7 +10,11 @@ resolvers += Resolver.mavenLocal
 
 lazy val temperaturesDao = project.in(file("temperatures-spark")).
     settings(Common.settings: _*).
-    settings(libraryDependencies ++= Dependencies.sparkDependencies)
+    settings(libraryDependencies ++= Dependencies.sparkDependenciesCassandra)
+
+lazy val enronSpark = project.in(file("enron-spark")).
+    settings(Common.settings: _*).
+    settings(libraryDependencies ++= Dependencies.sparkDependenciesXML ++ Dependencies.config)
 
 lazy val temperaturesController = project.in(file("temperatures-akka")).
     settings(Common.settings: _*).
@@ -25,4 +29,4 @@ lazy val akkaExamples = project.in(file("akka-examples")).
     settings(libraryDependencies ++= Dependencies.akkaDependencies)
 
 lazy val root = (project in file(".")).
-    aggregate(algorithms , temperaturesDao, temperaturesController, akkaExamples)
+    aggregate(algorithms , temperaturesDao, temperaturesController, akkaExamples, enronSpark)
