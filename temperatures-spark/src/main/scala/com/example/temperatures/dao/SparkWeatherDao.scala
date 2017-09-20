@@ -13,7 +13,7 @@ import scala.concurrent.Future
 object SparkWeatherDao extends WeatherDao{
 
   private val sc=SparkContextFactory.createSparkContext
-  private val data=sc.cassandraTable("addbrain" , "weather")
+  private val data=sc.cassandraTable("database" , "weather")
   private val records=data.map(row => WeatherRecord(row.getString(0),row.getDate(1), row.getString(2), row.getInt(3)))
 
 
