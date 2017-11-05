@@ -22,7 +22,8 @@ lazy val temperaturesController = project.in(file("temperatures-akka")).
 
 lazy val algorithms = project.in( file("algorithms")).
     settings(Common.settings: _*).
-    settings(libraryDependencies ++= Dependencies.commonDependencies)
+    settings(libraryDependencies ++= Dependencies.commonDependencies).
+  settings(libraryDependencies += "org.typelevel" %% "cats-core" % "1.0.0-RC1")
 
 lazy val akkaExamples = project.in(file("akka-examples")).
     settings(Common.settings: _*).
