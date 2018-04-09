@@ -121,7 +121,7 @@ My idea initially was to take all the information that was required from the XML
 
 Then my code to read the xml files and convert them to dataframes was only useful in the case of the second part of the exercice.
 
-For the first part of the exercice I think I could implement but it will take a bit more time. For the moment the code developed, I think shows my coding skills.
+For the first part of the exercice I think I could implement but it will take a bit more time. For the moment the code develop I think shows my coding skills.
 
 ## Project
 
@@ -147,24 +147,12 @@ My initial implementation of the conversion to dataframe was trying to use the w
 In this class you can see some usage of Scala XML functionality to parse XML documents.
 
 ### Get Average Emails Size
-My first idea is using spark. With this unstructured text data, the only option using spark is to use the function wholeTextFiles.  
+Only idea to get the average with Spark is loading the files with the wholeTextFiles, as the files has no structure and they are not in a format that can be used by Dataframes.
 
 But this is not a good solution as I explained before. The wholeTextFiles returns a Map with the fileName and the content of the file as a String. We can not collect all the files content (210GB)
 
 I imagine some kind of conversion needs to be done before by Hadoop to convert this files to another format.
 
-I think some treatment should be done to the txt files when they are uploaded to hdfs. Options:
-
-1. HiVE: hive works with structured data. To load the data it should have a schema. In this case the txt file has no schema.
-2. PIG:  as i have read it is possible to create a custom conversor in pig and convert the txt files and load them on pig.
-        
-        https://shrikantbang.wordpress.com/2013/11/02/apache-pig-custom-load-function-2/
-
-Steps to follow:
-
-1. Load the data in PIG using a custom conversor.
-2. Convert the data from pig to hive.
-3. Load the hive data to a Spark Dataframe. Once it is loaded all the queries can be done with no effort.
 
 
 ## Execution
@@ -202,8 +190,8 @@ Results expected:
 
 # TO BE DONE
 
-1. First part of the exercice to calculate the average of the messages.
-2. Deploy on a EC2 instance. Instructions: https://spark.apache.org/docs/1.6.2/ec2-scripts.html
-3. Include profiles (like in maven) to avoid embed the environment properties to be included directly on the configuration files.
-4. Include the sbt assembly to create a fat jar.
+1) First part of the exercice to calculate the average of the messages.
+2) Deploy on a EC2 instance. Instructions: https://spark.apache.org/docs/1.6.2/ec2-scripts.html
+3) Include profiles (like in maven) to avoid embed the environment properties to be included directly on the configuration files.
+4) Include the sbt assembly to create a fat jar.
 
