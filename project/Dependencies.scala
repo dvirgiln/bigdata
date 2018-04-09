@@ -9,7 +9,7 @@ object Dependencies {
   )
 
   val sparkVersion = "2.0.2"
-
+  val akkaVersion = "2.5.2"
 
   val sparkDependencies  : Seq[ModuleID] = commonDependencies ++ Seq(
     "org.apache.spark" %% "spark-core" % sparkVersion ,
@@ -24,6 +24,11 @@ object Dependencies {
     "com.typesafe.akka" %% "akka-http-spray-json-experimental" % "2.4.11",
     "com.typesafe.akka" %% "akka-http-testkit" % "2.4.11",
     "com.typesafe.akka" %% "akka-http-xml-experimental" % "2.4.11"
+  )
+
+  val akkaStreams  : Seq[ModuleID] = commonDependencies ++ Seq(
+    "com.typesafe.akka" %% "akka-actor" % akkaVersion,
+    "com.typesafe.akka" %% "akka-stream" % akkaVersion
   )
 
   val sparkDependenciesCassandra : Seq[ModuleID] = sparkDependencies ++ Seq(
