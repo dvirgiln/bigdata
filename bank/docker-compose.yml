@@ -1,0 +1,18 @@
+version: '2'
+services:
+    db:
+        image: mongo
+        ports:
+            - "27017:27017"
+        environment:
+          MONGO_INITDB_ROOT_USERNAME=admin
+          MONGO_INITDB_ROOT_PASSWORD=123admin!
+          MONGO_INITDB_DATABASE=transactions
+        command: mongod
+    transactions-api:
+        image: transactions-api:0.0.1
+        restart: always
+        depends_on:
+            - db
+        ports:
+            - "8080:8080"
