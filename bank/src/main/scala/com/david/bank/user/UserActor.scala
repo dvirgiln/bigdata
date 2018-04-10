@@ -16,6 +16,7 @@ object UserActor {
   final case class ActionPerformed(description: String)
   final case object GetUsers
   final case class CreateUser(user: User)
+  final case class UpdateUser(user: User)
   final case class GetUser(id: Int)
   final case class ValidateUser(id: Int, caller: ActorRef, caller2: ActorRef)
   final case class CreateUserWithInitialDeposit(user: User, initialDeposit: Double, caller: ActorRef)
@@ -39,7 +40,10 @@ class UserActor extends Actor with ActorLogging {
       sender() ! Users(getAll)
     case CreateUser(user) =>
       val stored = add(user)
-      sender() ! ActionPerformed(s"User $stored created.")
+      sender() ! stored
+    case UpdateUser(user) =>
+      val updated = update(user)
+      sender() ! updated
     case GetUser(id) =>
       sender() ! get(id)
     case ValidateUser(id, caller, caller2) =>

@@ -15,6 +15,7 @@ final case class ClientBasicInfo(user: User, balance: Double)
 
 final case class ClientDetailedInfo(user: User, balance: Double, transactions: Seq[Transaction])
 final case class Error(error: String)
+final case class Deposit(userId: Int, deposit: Double)
 
 object ClientActor {
 
@@ -56,7 +57,6 @@ class ClientActor(userActor: ActorRef, transactionActor: ActorRef) extends Actor
       transactionActor ! CreateTransaction(Transaction(None, MAIN_BANK.id.get, user.id.get, deposit, Some(new Date()), Some(TransactionStatus.CONFIRMED)))
       caller ! OperationPerformed(s"Deposit of $deposit confirmed for the account of \n $user")
     case GetAllClientsBasicInfo =>
-      userActor ! GetAllUsers(sender)
     case GetAllClientsBasicInfo(users, caller) =>
       transactionActor ! GetAllTransactionsBasic(users, caller)
     case UserNotExist(userId, caller) =>

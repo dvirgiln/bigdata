@@ -33,3 +33,5 @@ version in Docker := version.value
 
 dockerBaseImage := "openjdk:jre-alpine"
 mainClass in Compile := Some("com.david.bank.QuickstartServer")
+
+parallelExecution in Test := false

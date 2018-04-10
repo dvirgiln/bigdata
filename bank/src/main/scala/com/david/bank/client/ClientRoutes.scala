@@ -11,9 +11,10 @@ import akka.http.scaladsl.server.directives.RouteDirectives.complete
 import akka.pattern.ask
 import akka.util.Timeout
 import com.david.bank.client.ClientActor._
-import com.david.bank.client.{ ClientBasicInfo, ClientDetailedInfo, ClientsBasicInfo }
+import com.david.bank.client.{ ClientBasicInfo, ClientDetailedInfo, ClientsBasicInfo, Deposit }
 import com.david.bank.transaction.TransactionActor.{ CreateTransaction, GetTransactions, TransactionErrors }
 import com.david.bank.util.JsonSupport
+
 import scala.concurrent.Future
 
 trait ClientRoutes extends JsonSupport {
@@ -49,28 +50,44 @@ trait ClientRoutes extends JsonSupport {
           )
         },
         path(Segment) { userId =>
-          get {
-            parameter('detailed.as[Boolean].?) { detailed =>
-              detailed match {
-                case Some(true) =>
-                  logClient.info(s"Getting detailed information for user $userId")
-                  val detailedClient: Future[Option[ClientDetailedInfo]] =
-                    (clientActor ? GetClientDetailedInfo(userId.toInt)).mapTo[Option[ClientDetailedInfo]]
-                  rejectEmptyResponse {
-                    complete(detailedClient)
-                  }
-                case _ =>
-                  logClient.info(s"Getting basic information for user $userId")
-                  val basicClient: Future[Option[ClientBasicInfo]] =
-                    (clientActor ? GetClientBasicInfo(userId.toInt)).mapTo[Option[ClientBasicInfo]]
-                  rejectEmptyResponse {
-                    complete(basicClient)
-                  }
-              }
+          concat(
+            get {
+              parameter('detailed.as[Boolean].?) { detailed =>
+                detailed match {
+                  case Some(true) =>
+                    logClient.info(s"Getting detailed information for user $userId")
+                    val detailedClient: Future[Option[ClientDetailedInfo]] =
+                      (clientActor ? GetClientDetailedInfo(userId.toInt)).mapTo[Option[ClientDetailedInfo]]
+                    rejectEmptyResponse {
+                      complete(detailedClient)
+                    }
+                  case _ =>
+                    logClient.info(s"Getting basic information for user $userId")
+                    val basicClient: Future[Option[ClientBasicInfo]] =
+                      (clientActor ? GetClientBasicInfo(userId.toInt)).mapTo[Option[ClientBasicInfo]]
+                    rejectEmptyResponse {
+                      complete(basicClient)
+                    }
+                }
 
+              }
+            }
+          )
+        },
+        pathSuffix("deposit") {
+          post {
+            entity(as[Deposit]) { depositJson =>
+              logClient.info(s"Creating a deposit of ${depositJson.deposit} to userId ${depositJson.userId}")
+              val depositCreated: Future[OperationPerformed] =
+                (clientActor ? CreateDeposit(depositJson.userId, depositJson.deposit)).mapTo[OperationPerformed]
+              rejectEmptyResponse {
+                complete(depositCreated)
+              }
             }
           }
+
         }
+
       )
     }
 

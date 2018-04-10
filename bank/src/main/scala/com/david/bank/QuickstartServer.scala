@@ -1,6 +1,5 @@
 package com.david.bank
 
-//#quick-start-server
 import java.util.logging.Logger
 
 import akka.actor.{ ActorRef, ActorSystem, Props }
@@ -19,7 +18,7 @@ object QuickstartServer extends HttpApp with App with TransactionRoutes with Use
   // set up ActorSystem and other dependencies here
   implicit val system: ActorSystem = ActorSystem("transactionsHttpServer")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
-  implicit lazy val timeout = Timeout(100.seconds) // usually we'd obtain the timeout from the system's configuration
+  implicit lazy val timeout = Timeout(5.seconds) // usually we'd obtain the timeout from the system's configuration
 
   val userActor: ActorRef = system.actorOf(UserActor.props, "userRegistryActor")
   val transactionActor: ActorRef = system.actorOf(Props(new TransactionActor(userActor)), "transactionActor")

@@ -1,7 +1,7 @@
 package com.david.bank.util
 
 import com.david.bank.client.ClientActor.OperationPerformed
-import com.david.bank.client.{ ClientBasicInfo, ClientDetailedInfo, ClientsBasicInfo, Error }
+import com.david.bank.client.{ ClientBasicInfo, ClientDetailedInfo, ClientsBasicInfo, Deposit, Error }
 import com.david.bank.transaction.TransactionActor.TransactionErrors
 import com.david.bank.transaction.{ Transaction, TransactionStatus, Transactions }
 import com.david.bank.user.UserActor.ActionPerformed
@@ -36,5 +36,6 @@ trait JsonSupport extends SprayJsonSupport {
   implicit val operationPerformedJsonFormat = jsonFormat1(OperationPerformed)
   implicit val clientsBasicInfoJsonFormat = jsonFormat1(ClientsBasicInfo)
   implicit val errorJsonFormat = jsonFormat1(Error)
+  implicit val depositJsonFormat = jsonFormat2(Deposit)
 
 }

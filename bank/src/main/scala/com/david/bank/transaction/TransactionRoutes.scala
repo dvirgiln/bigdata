@@ -29,15 +29,14 @@ trait TransactionRoutes extends JsonSupport {
         pathEnd {
           concat(
             get {
-              logTransaction.info("Getting all the transactions")
-              //#retrieve-user-info
+              logTransaction.info("Getting2 all the transactions")
               val transactions: Future[Transactions] =
                 (transactionActor ? GetTransactions).mapTo[Transactions]
               complete(transactions)
             },
             post {
               entity(as[Transaction]) { transaction =>
-                logTransaction.info(s"Creating a new transaction $transaction")
+                logTransaction.info(s"2Creating a new transaction $transaction")
                 val transactionCreated: Future[Either[TransactionErrors, Transaction]] =
                   (transactionActor ? CreateTransaction(transaction)).mapTo[Either[TransactionErrors, Transaction]]
                 onSuccess(transactionCreated) { t =>

@@ -5,7 +5,7 @@ import java.util.Date
 import akka.actor.{ Actor, ActorLogging, ActorRef, Props, Stash }
 import akka.stream.{ ActorMaterializer, ActorMaterializerSettings }
 import com.david.bank.BankConstants._
-import com.david.bank.QuickstartServer.{ system }
+
 import com.david.bank.client.{ ClientBasicInfo, ClientDetailedInfo, ClientsBasicInfo }
 import com.david.bank.transaction.TransactionUsersValidatorActor.{ ValidateTransaction, ValidatedTransaction }
 import com.david.bank.user.User
@@ -19,7 +19,7 @@ object TransactionStatus extends Enumeration {
 
   def withNameOpt(s: String): Option[Value] = values.find(_.toString == s)
 }
-final case class Transaction(id: Option[Int], senderId: Int, receiverId: Int, amount: Double, transactionDate: Option[Date], status: Option[TransactionStatus.Value] = None)
+final case class Transaction(id: Option[Int], senderId: Int, receiverId: Int, amount: Double, transactionDate: Option[Date] = None, status: Option[TransactionStatus.Value] = None)
 final case class Transactions(transactions: Seq[Transaction])
 
 object TransactionActor {
@@ -39,7 +39,8 @@ class TransactionActor(userActor: ActorRef) extends Actor with ActorLogging with
 
   override def receive: Receive = {
     case CreateTransaction(transaction) =>
-      val userValidator: ActorRef = system.actorOf(Props(new TransactionUsersValidatorActor(userActor)), s"TransactionUserValidator${transaction.senderId}_${transaction.receiverId}")
+      log.info(s"Creating Transaction $transaction")
+      val userValidator: ActorRef = context.system.actorOf(Props(new TransactionUsersValidatorActor(userActor)), s"TransactionUserValidator${transaction.senderId}_${transaction.receiverId}")
       userValidator ! ValidateTransaction(transaction, sender)
     case ValidatedTransaction(t, errors, caller) if errors isEmpty =>
       val transaction = Right(TransactionService.add(t))

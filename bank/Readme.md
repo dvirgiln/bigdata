@@ -206,3 +206,17 @@ Here it is the complete list of endpoints:
             "message": "Created user with userId 1  with an initial deposit of 8000.0"
         }
 ```
+```
+4. POST /clients/{user_id}/deposit  -> A deposit is done from the MAIN_BANK
+        Request:
+```json
+        {
+            "deposit" : 5000
+        }
+```
+        Response:
+```json
+        {
+            "message": "Deposit of 5000 has been done to userId 1"
+        }
+```

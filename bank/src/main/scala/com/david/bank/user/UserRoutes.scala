@@ -47,14 +47,39 @@ trait UserRoutes extends JsonSupport {
             },
             post {
               entity(as[User]) { user =>
-                val userCreated: Future[ActionPerformed] =
-                  (userActor ? CreateUser(user)).mapTo[ActionPerformed]
-                onSuccess(userCreated) { performed =>
-                  logUser.info("Created user [{}]: {}", user.name, performed.description)
-                  complete((StatusCodes.Created, performed))
+                user.id match {
+                  case None =>
+                    val userCreated: Future[User] =
+                      (userActor ? CreateUser(user)).mapTo[User]
+                    onSuccess(userCreated) { user =>
+                      complete((StatusCodes.Created, user))
+                    }
+                  case Some(_) =>
+                    complete(StatusCodes.BadRequest, "The ID should not be included for new resources")
                 }
+
+              }
+            },
+            put {
+              entity(as[User]) { user =>
+                user.id match {
+                  case None =>
+                    complete(StatusCodes.BadRequest, "The ID should be included for new resources")
+                  case Some(_) =>
+                    val userUpdated: Future[Boolean] =
+                      (userActor ? UpdateUser(user)).mapTo[Boolean]
+                    onSuccess(userUpdated) { updated =>
+                      updated match {
+                        case true => complete(StatusCodes.OK)
+                        case false => complete(StatusCodes.NotFound)
+                      }
+
+                    }
+                }
+
               }
             }
+
           )
         }
       )

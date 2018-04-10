@@ -24,9 +24,9 @@ class TransactionUsersValidatorActor(userActor: ActorRef) extends LoggingFSM[Tra
       userActor ! ValidateUser(transaction.senderId, controllerCaller, sender)
       stay.using(TransactionValidationError(Some(transaction), Seq.empty[String]))
     case Event(UserValidation(id, exists, controllerCaller, transactionCaller), validation @ TransactionValidationError(Some(Transaction(_, senderId, _, _, _, _)), errors)) =>
-      userActor ! ValidateUser(validation.transaction.get.senderId, controllerCaller, transactionCaller)
+      userActor ! ValidateUser(validation.transaction.get.receiverId, controllerCaller, transactionCaller)
       exists match {
-        case false => goto(ValidatedSender).using(validation.copy(errors = errors :+ s""))
+        case false => goto(ValidatedSender).using(validation.copy(errors = errors :+ s"The sender $senderId doesnt exist"))
         case true => goto(ValidatedSender).using(validation)
       }
   }
@@ -36,7 +36,7 @@ class TransactionUsersValidatorActor(userActor: ActorRef) extends LoggingFSM[Tra
         case true => errors
         case false => errors :+ s"The receiver $receiverId doesnt exist"
       }
-      transactionCaller ! ValidatedTransaction(validation.transaction.get, errors, controllerCaller)
+      transactionCaller ! ValidatedTransaction(validation.transaction.get, finalErrors, controllerCaller)
       context.stop(self)
       goto(NonValidated).using(TransactionValidationError(None, Seq.empty[String]))
   }

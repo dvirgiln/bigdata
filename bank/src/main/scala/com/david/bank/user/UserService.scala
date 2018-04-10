@@ -2,24 +2,35 @@ package com.david.bank.user
 
 import com.david.bank.BankConstants
 
+import scala.collection.mutable
+
 object UserService {
-  private var users = Set.empty[User]
+  private var users = mutable.Map.empty[Int, User]
   private var sequenceId = 1
 
-  def init() = users += BankConstants.MAIN_BANK.copy(id = Some(0))
+  def init() = users += (0 -> BankConstants.MAIN_BANK.copy(id = Some(0)))
 
-  def getAll(): Seq[User] = users.toSeq
+  def getAll(): Seq[User] = users.values.toSeq.sortBy(_.id)
 
   def add(user: User): User = {
     val userToStore = user.copy(id = Some(sequenceId))
-    users += userToStore
+    users += (sequenceId -> userToStore)
     sequenceId = sequenceId + 1
     userToStore
   }
 
-  def get(id: Int): Option[User] = users.find(_.id.get == id)
+  def update(user: User): Boolean = {
+    users.get(user.id.get).headOption match {
+      case Some(_) =>
+        users(user.id.get) = user
+        true
+      case None => false
+    }
+  }
 
-  def exists(id: Int): Boolean = users.exists(_.id.get == id)
+  def get(id: Int): Option[User] = users.get(id)
+
+  def exists(id: Int): Boolean = users.contains(id)
 
   init()
 }
