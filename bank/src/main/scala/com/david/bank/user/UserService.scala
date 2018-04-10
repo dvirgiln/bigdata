@@ -8,7 +8,11 @@ object UserService {
   private var users = mutable.Map.empty[Int, User]
   private var sequenceId = 1
 
-  def init() = users += (0 -> BankConstants.MAIN_BANK.copy(id = Some(0)))
+  def init() = {
+    sequenceId = 1
+    users = mutable.Map.empty[Int, User]
+    users += (0 -> BankConstants.MAIN_BANK.copy(id = Some(0)))
+  }
 
   def getAll(): Seq[User] = users.values.toSeq.sortBy(_.id)
 

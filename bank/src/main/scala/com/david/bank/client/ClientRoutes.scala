@@ -11,7 +11,7 @@ import akka.http.scaladsl.server.directives.RouteDirectives.complete
 import akka.pattern.ask
 import akka.util.Timeout
 import com.david.bank.client.ClientActor._
-import com.david.bank.client.{ ClientBasicInfo, ClientDetailedInfo, ClientsBasicInfo, Deposit }
+import com.david.bank.client._
 import com.david.bank.transaction.TransactionActor.{ CreateTransaction, GetTransactions, TransactionErrors }
 import com.david.bank.util.JsonSupport
 
@@ -37,14 +37,16 @@ trait ClientRoutes extends JsonSupport {
               logClient.info("Getting all the Basic Clients Information")
               val clients: Future[ClientsBasicInfo] =
                 (clientActor ? GetAllClientsBasicInfo).mapTo[ClientsBasicInfo]
-              complete(clients)
+              complete(StatusCodes.OK, clients)
             },
             post {
               entity(as[ClientBasicInfo]) { basicClient =>
                 logClient.info(s"Creating a new client $basicClient")
-                val basicClientCreated: Future[OperationPerformed] =
-                  (clientActor ? CreateClient(basicClient.user, basicClient.balance)).mapTo[OperationPerformed]
-                complete((StatusCodes.Created, basicClientCreated))
+                val basicClientCreated: Future[Int] =
+                  (clientActor ? CreateClient(basicClient.user, basicClient.balance)).mapTo[Int]
+                onSuccess(basicClientCreated) { userId =>
+                  complete((StatusCodes.Created, ClientCreatedResponse(userId)))
+                }
               }
             }
           )

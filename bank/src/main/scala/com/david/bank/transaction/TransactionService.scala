@@ -15,6 +15,8 @@ object TransactionService {
   init()
 
   def init(): Unit = {
+    sequenceId = 1
+    transactions = Set.empty[Transaction]
     val initialTransaction = Transaction(Some(0), -1, BankConstants.MAIN_BANK.id.get, Double.MaxValue, Some(new Date()), Some(TransactionStatus.CONFIRMED))
     transactions += initialTransaction
   }

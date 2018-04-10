@@ -1,3 +1,4 @@
+package com.david.bank.transaction
 import akka.actor.{ ActorRef, ActorSystem, Props }
 import akka.http.scaladsl.marshalling.Marshal
 import akka.http.scaladsl.model.{ ContentTypes, HttpRequest, MessageEntity, StatusCodes }
@@ -7,12 +8,12 @@ import akka.http.scaladsl.testkit.ScalatestRouteTest
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
 import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.{ Matchers, Sequential, WordSpec }
+import org.scalatest.{ BeforeAndAfterAll, Matchers, Sequential, WordSpec }
 import akka.http.scaladsl.server.Directives._
 import com.david.bank.QuickstartServer.{ system, transactionActor, userActor }
 import com.david.bank.transaction.{ Transaction, TransactionActor, TransactionRoutes, Transactions }
 import com.david.bank.user.UserActor.CreateUser
-import com.david.bank.user.{ User, UserActor }
+import com.david.bank.user.{ User, UserActor, UserService }
 import akka.pattern.ask
 import com.david.bank.client.ClientActor
 import com.david.bank.client.ClientActor.{ CreateDeposit, OperationPerformed }
@@ -22,13 +23,17 @@ import scala.concurrent.Future
 import scala.concurrent.duration._
 
 class TransactionRoutesSpec extends WordSpec with Matchers with ScalaFutures with ScalatestRouteTest
-    with TransactionRoutes {
+    with TransactionRoutes with BeforeAndAfterAll {
   implicit lazy val timeout = Timeout(100.seconds)
   val userActor: ActorRef = system.actorOf(UserActor.props, "userRegistryActor")
   val transactionActor: ActorRef = system.actorOf(Props(new TransactionActor(userActor)), "transactionActor")
   val clientActor: ActorRef = system.actorOf(Props(new ClientActor(userActor, transactionActor)), "clientActor")
   lazy val routes = transactionRoutes
 
+  override def beforeAll() {
+    UserService.init
+    TransactionService.init
+  }
   import UserCreationTest._
   "TransactionRoutes" should {
     "return the initial transaction done to the MAIN BANK (GET /transactions)" in {

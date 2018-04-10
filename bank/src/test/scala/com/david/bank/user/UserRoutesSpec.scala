@@ -9,19 +9,23 @@ import akka.http.scaladsl.testkit.ScalatestRouteTest
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
 import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.{ Matchers, Sequential, WordSpec }
+import org.scalatest.{ BeforeAndAfterAll, Matchers, Sequential, WordSpec }
 import akka.http.scaladsl.server.Directives._
 
 import scala.concurrent.duration._
 
 class UserRoutesSpec extends WordSpec with Matchers with ScalaFutures with ScalatestRouteTest
-    with UserRoutes {
+    with UserRoutes with BeforeAndAfterAll {
 
   implicit lazy val timeout = Timeout(5.seconds)
 
   val userActor: ActorRef = system.actorOf(UserActor.props, "userRegistryActor")
 
   lazy val routes = userRoutes
+
+  override def beforeAll() {
+    UserService.init
+  }
 
   "UserRoutes" should {
     "return the initial user when no other user is added (GET /users)" in {
@@ -81,7 +85,7 @@ class UserRoutesSpec extends WordSpec with Matchers with ScalaFutures with Scala
     }
 
     "handle error in case an user doesnt exist (GET /users)" in {
-      val request = HttpRequest(uri = "/users/2")
+      val request = HttpRequest(uri = "/users/25")
 
       request ~> Route.seal(routes) ~> check {
         status shouldEqual StatusCodes.NotFound
