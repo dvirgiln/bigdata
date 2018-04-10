@@ -49,27 +49,27 @@ trait ClientRoutes extends JsonSupport {
           )
         },
         path(Segment) { userId =>
-            get {
-              parameter('detailed.as[Boolean].?) { detailed =>
-                detailed match {
-                  case Some(true) =>
-                    logClient.info(s"Getting detailed information for user $userId")
-                    val detailedClient: Future[Option[ClientDetailedInfo]] =
-                      (clientActor ? GetClientDetailedInfo(userId.toInt)).mapTo[Option[ClientDetailedInfo]]
-                    rejectEmptyResponse {
-                      complete(detailedClient)
-                    }
-                  case _ =>
-                    logClient.info(s"Getting basic information for user $userId")
-                    val basicClient: Future[Option[ClientBasicInfo]] =
-                      (clientActor ? GetClientBasicInfo(userId.toInt)).mapTo[Option[ClientBasicInfo]]
-                    rejectEmptyResponse {
-                      complete(basicClient)
-                    }
-                }
-
+          get {
+            parameter('detailed.as[Boolean].?) { detailed =>
+              detailed match {
+                case Some(true) =>
+                  logClient.info(s"Getting detailed information for user $userId")
+                  val detailedClient: Future[Option[ClientDetailedInfo]] =
+                    (clientActor ? GetClientDetailedInfo(userId.toInt)).mapTo[Option[ClientDetailedInfo]]
+                  rejectEmptyResponse {
+                    complete(detailedClient)
+                  }
+                case _ =>
+                  logClient.info(s"Getting basic information for user $userId")
+                  val basicClient: Future[Option[ClientBasicInfo]] =
+                    (clientActor ? GetClientBasicInfo(userId.toInt)).mapTo[Option[ClientBasicInfo]]
+                  rejectEmptyResponse {
+                    complete(basicClient)
+                  }
               }
+
             }
+          }
         }
       )
     }

@@ -33,9 +33,9 @@ object TransactionService {
   def getAll(userId: Int): Seq[Transaction] = transactions.filter { case Transaction(_, s, r, _, _, _) => r == userId || s == userId }.toSeq.sortBy(_.transactionDate)
 
   def getBalance(userId: Int): Double = {
-    val all=getAll(userId)
+    val all = getAll(userId)
 
-      all.filterNot(_.status == TransactionStatus.REJECTED).foldLeft(0.0) { (balance, transaction) =>
+    all.filterNot(_.status == TransactionStatus.REJECTED).foldLeft(0.0) { (balance, transaction) =>
       transaction match {
         case Transaction(_, s, _, amount, _, status) if s == userId => balance - amount
         case Transaction(_, _, r, amount, _, _) if r == userId => balance + amount

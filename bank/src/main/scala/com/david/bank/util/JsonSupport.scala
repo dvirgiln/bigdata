@@ -1,12 +1,12 @@
 package com.david.bank.util
 
 import com.david.bank.client.ClientActor.OperationPerformed
-import com.david.bank.client.{ClientBasicInfo, ClientDetailedInfo, ClientsBasicInfo, Error}
+import com.david.bank.client.{ ClientBasicInfo, ClientDetailedInfo, ClientsBasicInfo, Error }
 import com.david.bank.transaction.TransactionActor.TransactionErrors
-import com.david.bank.transaction.{Transaction, TransactionStatus, Transactions}
+import com.david.bank.transaction.{ Transaction, TransactionStatus, Transactions }
 import com.david.bank.user.UserActor.ActionPerformed
-import com.david.bank.user.{User, Users}
-import spray.json.{JsString, JsValue, JsonFormat, deserializationError}
+import com.david.bank.user.{ User, Users }
+import spray.json.{ JsString, JsValue, JsonFormat, deserializationError }
 
 //#json-support
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
