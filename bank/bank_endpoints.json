@@ -1,0 +1,246 @@
+{
+  "info": {
+    "_postman_id": "c5452d6e-a2c8-489f-8233-0edf5fde66ca",
+    "name": "Bank",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List Transactions",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {},
+        "url": {
+          "raw": "http://localhost:8080/transactions",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "transactions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Transaction List By UserId",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {},
+        "url": {
+          "raw": "http://localhost:8080/transactions/12345",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "transactions",
+            "12345"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Transaction Add",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"senderId\" : 1,\n\t\"receiverId\" : 2,\n\t\"amount\" : 1000\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/transactions",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "transactions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Client Get Detailed",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {},
+        "url": {
+          "raw": "http://localhost:8080/clients/111?detailed=true",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "clients",
+            "111"
+          ],
+          "query": [
+            {
+              "key": "detailed",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Client Get Basic",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {},
+        "url": {
+          "raw": "http://localhost:8080/clients/111",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "clients",
+            "111"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Client Add",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n \"user\" : {\n  \"name\" : \"Pepe Naranjo\",\n  \"age\" : 33,\n  \"countryOfResidence\" : \"UK\"\n },\n \"balance\" : 3000.55\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/clients",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "clients"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Client List",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n \"user\" : {\n  \"name\" : \"Pepe Naranjo\",\n  \"age\" : 33,\n  \"countryOfResidence\" : \"UK\"\n },\n \"balance\" : 3000.55\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/clients",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "clients"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "User LIst",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {},
+        "url": {
+          "raw": "http://localhost:8080/users",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "User Add",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\" : \"12345\",\n  \"name\" : \"David Virgil\",\n  \"age\" : 33,\n  \"countryOfResidence\" : \"UK\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/users",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "User Get by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {},
+        "url": {
+          "raw": "http://localhost:8080/users/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
