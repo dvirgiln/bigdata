@@ -58,7 +58,6 @@ Here it is the complete list of endpoints:
         Request:
 ```json
         {
-          "id" : "54321",
           "name" : "Pepe Naranjo",
           "age" : 33,
           "countryOfResidence" : "UK"
@@ -67,7 +66,10 @@ Here it is the complete list of endpoints:
         Response:
 ```json
         {
-            "description": "User Pepe Naranjo created."
+          "id" : "54321",
+          "name" : "Pepe Naranjo",
+          "age" : 33,
+          "countryOfResidence" : "UK"
         }
 ```
 ## Transactions
@@ -207,10 +209,11 @@ Here it is the complete list of endpoints:
         }
 ```
 ```
-4. POST /clients/{user_id}/deposit  -> A deposit is done from the MAIN_BANK
+4. POST /clients/deposit  -> A deposit is done from the MAIN_BANK
         Request:
 ```json
         {
+            "userId"  : 1
             "deposit" : 5000
         }
 ```
