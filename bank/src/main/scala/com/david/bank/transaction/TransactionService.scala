@@ -7,7 +7,7 @@ import com.david.bank.BankConstants
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 import scala.concurrent.Future
-
+import TransactionDomain._
 object TransactionService {
 
   var transactions = Set.empty[Transaction]

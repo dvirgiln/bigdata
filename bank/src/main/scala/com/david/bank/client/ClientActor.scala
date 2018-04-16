@@ -4,7 +4,7 @@ import java.util.Date
 
 import akka.actor.{ Actor, ActorLogging, ActorRef, Props, Stash }
 import com.david.bank.transaction.TransactionActor.{ CreateTransaction, GetAllTransactionsBasic, GetTransactionsBasic, GetTransactionsDetailed }
-import com.david.bank.transaction.{ Transaction, TransactionActor, TransactionStatus }
+import com.david.bank.transaction.TransactionDomain._
 import com.david.bank.user.User
 import com.david.bank.user.UserActor._
 import com.david.bank.BankConstants._

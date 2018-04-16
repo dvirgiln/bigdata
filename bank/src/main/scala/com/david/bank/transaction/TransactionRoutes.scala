@@ -22,7 +22,7 @@ trait TransactionRoutes extends JsonSupport {
   lazy val logTransaction = Logging(system, classOf[TransactionRoutes])
   implicit val timeout: Timeout
   def transactionActor: ActorRef
-
+import TransactionDomain._
   lazy val transactionRoutes: Route =
     pathPrefix("transactions") {
       concat(

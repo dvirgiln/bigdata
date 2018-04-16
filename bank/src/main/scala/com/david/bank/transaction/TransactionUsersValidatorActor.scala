@@ -5,7 +5,7 @@ import com.david.bank.transaction.TransactionActor.CreateTransaction
 import com.david.bank.transaction.TransactionUsersValidatorActor.{ ValidateTransaction, ValidatedTransaction }
 import com.david.bank.user.UserActor.ValidateUser
 import com.david.bank.user.UserValidation
-
+import TransactionDomain._
 final case class TransactionValidationError(transaction: Option[Transaction], errors: Seq[String])
 
 object TransactionUsersValidatorActor {

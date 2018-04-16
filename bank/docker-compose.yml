@@ -1,16 +1,11 @@
 version: '2'
 services:
     db:
-        image: mongo
+        image: dwmkerr/dynamodb
         ports:
-            - "27017:27017"
-        environment:
-          MONGO_INITDB_ROOT_USERNAME=admin
-          MONGO_INITDB_ROOT_PASSWORD=123admin!
-          MONGO_INITDB_DATABASE=transactions
-        command: mongod
+            - "8000:8000"
     transactions-api:
-        image: transactions-api:0.0.1
+        image: bank-api:0.0.1-SNAPSHOT
         restart: always
         depends_on:
             - db

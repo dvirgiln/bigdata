@@ -18,7 +18,7 @@ import akka.pattern.ask
 import com.david.bank.client.ClientActor
 import com.david.bank.client.ClientActor.{ CreateClient, CreateDeposit, GetClientDetailedInfo, OperationPerformed }
 import com.david.bank.transaction.TransactionActor.{ CreateTransaction, TransactionErrors }
-
+import TransactionDomain._
 import scala.concurrent.Future
 import scala.concurrent.duration._
 

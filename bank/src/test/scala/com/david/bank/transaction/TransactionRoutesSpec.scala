@@ -11,7 +11,8 @@ import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.{ BeforeAndAfterAll, Matchers, Sequential, WordSpec }
 import akka.http.scaladsl.server.Directives._
 import com.david.bank.QuickstartServer.{ system, transactionActor, userActor }
-import com.david.bank.transaction.{ Transaction, TransactionActor, TransactionRoutes, Transactions }
+import com.david.bank.transaction.{TransactionActor, TransactionRoutes }
+import TransactionDomain._
 import com.david.bank.user.UserActor.CreateUser
 import com.david.bank.user.{ User, UserActor, UserService }
 import akka.pattern.ask

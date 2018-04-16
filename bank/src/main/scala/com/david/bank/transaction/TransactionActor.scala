@@ -13,14 +13,8 @@ import com.david.bank.user.User
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 
-object TransactionStatus extends Enumeration {
-  type TransactionStatus = Value
-  val REJECTED, PENDING, CONFIRMED = Value
 
-  def withNameOpt(s: String): Option[Value] = values.find(_.toString == s)
-}
-final case class Transaction(id: Option[Int], senderId: Int, receiverId: Int, amount: Double, transactionDate: Option[Date] = None, status: Option[TransactionStatus.Value] = None)
-final case class Transactions(transactions: Seq[Transaction])
+import TransactionDomain._
 
 object TransactionActor {
   final case class CreateTransaction(transaction: Transaction)
