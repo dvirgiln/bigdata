@@ -1,3 +1,5 @@
+package com.david.cats.free
+
 import cats.free.Free
 
 
@@ -22,8 +24,8 @@ object OrderComputations{
 }
 
 object OrderInterpreter{
-  import cats.{Id, ~>}
   import OrderDomain._
+  import cats.{Id, ~>}
 
   def orderPrinter: Orders ~> Id =
     new (Orders ~> Id) {
@@ -38,8 +40,8 @@ object OrderInterpreter{
     }
 }
 object OrdersApp extends App{
-  import OrderDomain._
   import OrderComputations._
+  import OrderDomain._
   import OrderInterpreter._
   val smartTrade: OrdersF[Response] = for {
     _ <- buy("APPL", 50)
